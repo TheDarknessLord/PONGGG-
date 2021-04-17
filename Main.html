@@ -5,14 +5,20 @@
     </head>
 <style>
     #gameScreen{
-        border: 1px solid black;
+        border: 2px solid whitesmoke;
         background-color: black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
+    
 </style>
-<body>
+<body bgcolor="black">
     <canvas id="gameScreen" width=500 height="300"></canvas>
+   
     <script>
-
+    
     const pw = 10;
     const pl = 50;
     const bs = 10;
@@ -46,6 +52,7 @@
         clear_board();//Clear board every iteration
         drawBall();//Draw the ball
         move_Ball();//Move the ball
+        aiBrain();
         drawPlayers();//Draw the Players
         
           main();//recursive main
@@ -85,40 +92,46 @@
         ctx.fillStyle = '#FFF';
     ctx.fillRect(px,yp,10,50);
     ctx.fillStyle = '#FFF';
-    ctx.fillRect(cx,y-25,10,50);//The ai is god level right now change after testing
+    ctx.fillRect(cx,yc,10,50);//The ai is more human now lmao
     if(yp<0){yp=0;pdy=0;}
     if(yp>mxh-50){yp=mxh-50;pdy=0;}//if player hits edge stop motion
-    if(yc<0){yc=0;cdy=0;}
-    if(yc>mxh-50){yc=mxh-50;cdy=0;}
+    
     yp=yp+pdy;
-    yc=yc+cdy;
+   
     }
     function has_game_ended(){
         if(x==0||x<0){sc=sc+1;return true;}//if the ball hits our side of the screen
         if(x==cx+10||x>cx+10){sp=sp+1;return true;}//if the ball hits computer side of the screen 
     }
+     
 
-
-    function change_direction(event)
+    function change_direction(event)//For the event "Keypressed" call this function
     {
         const UP_KEY = 40;
         const DOWN_KEY = 38;
         const keyPressed = event.keyCode;
 
         if(keyPressed === UP_KEY)
-        pdy=5;
+        pdy=6;
         if (keyPressed === DOWN_KEY)
-        pdy=-5;
+        pdy=-6;
+        
+    
+    }
+
+
+    function aiBrain()
+    {
+       if(y+25>yc)cdy=5;
+       if(y-25<yc)cdy=-5;
+        if(yc<0){yc=0;cdy=0;}
+    if(yc>mxh-50){yc=mxh-50;cdy=0;}//if player hits edge stop motion
+    
+    yc=yc+cdy;
     }
 
     
-    /*ctx.clearRect(20,20,100,100);
-    ctx.fillStyle = '#FFF';
-    ctx.fillRect(10,150,10,50);
-    ctx.fillStyle = '#FFF';
-    ctx.fillRect(480,240,10,50);
-    ctx.fillStyle = '#FFF';
-    ctx.fillRect(250,250,10,10);*/
+  
 
 
 
